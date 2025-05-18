@@ -1,0 +1,31 @@
+{
+  "os": "Windows-10-10.0.22631-SP0",
+  "python": "CPython 3.11.4",
+  "startedAt": "2025-05-16T18:53:17.516488Z",
+  "program": "D:\\IITM academics and courses\\IITM courses\\DL\\A3_CH21B033\\CH21B033_DA6401_Assignment_3\\wandb_sweep.py",
+  "codePath": "wandb_sweep.py",
+  "git": {
+    "remote": "https://github.com/Sameer12052003/CH21B033_DA6401_Assignment_3.git",
+    "commit": "78b029f30a5f5be12eccb7a6bebe987a98bfc3ea"
+  },
+  "email": "ch21b033@smail.iitm.ac.in",
+  "root": "D:\\IITM academics and courses\\IITM courses\\DL\\A3_CH21B033\\CH21B033_DA6401_Assignment_3",
+  "host": "DESKTOP-O9VF106",
+  "executable": "D:\\IITM academics and courses\\IITM courses\\DL\\A3_CH21B033\\my_env\\Scripts\\python.exe",
+  "codePathLocal": "wandb_sweep.py",
+  "cpu_count": 10,
+  "cpu_count_logical": 12,
+  "disk": {
+    "/": {
+      "total": "268434403328",
+      "used": "248920252416"
+    }
+  },
+  "memory": {
+    "total": "16849293312"
+  },
+  "cpu": {
+    "count": 10,
+    "countLogical": 12
+  }
+}

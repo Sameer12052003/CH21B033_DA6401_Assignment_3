@@ -1,0 +1,30 @@
+2025-05-17 00:23:28,464 INFO    Thread-14 (_run_job):18824 [wandb_setup.py:_flush():70] Current SDK version is 0.19.11
+2025-05-17 00:23:28,465 INFO    Thread-14 (_run_job):18824 [wandb_setup.py:_flush():70] Configure stats pid to 18824
+2025-05-17 00:23:28,465 INFO    Thread-14 (_run_job):18824 [wandb_setup.py:_flush():70] Loading settings from C:\Users\DELL\.config\wandb\settings
+2025-05-17 00:23:28,465 INFO    Thread-14 (_run_job):18824 [wandb_setup.py:_flush():70] Loading settings from D:\IITM academics and courses\IITM courses\DL\A3_CH21B033\CH21B033_DA6401_Assignment_3\wandb\settings
+2025-05-17 00:23:28,465 INFO    Thread-14 (_run_job):18824 [wandb_setup.py:_flush():70] Loading settings from environment variables
+2025-05-17 00:23:28,465 INFO    Thread-14 (_run_job):18824 [wandb_init.py:setup_run_log_directory():724] Logging user logs to D:\IITM academics and courses\IITM courses\DL\A3_CH21B033\CH21B033_DA6401_Assignment_3\wandb\run-20250517_002328-o0a5ro1v\logs\debug.log
+2025-05-17 00:23:28,465 INFO    Thread-14 (_run_job):18824 [wandb_init.py:setup_run_log_directory():725] Logging internal logs to D:\IITM academics and courses\IITM courses\DL\A3_CH21B033\CH21B033_DA6401_Assignment_3\wandb\run-20250517_002328-o0a5ro1v\logs\debug-internal.log
+2025-05-17 00:23:28,465 INFO    Thread-14 (_run_job):18824 [wandb_init.py:init():852] calling init triggers
+2025-05-17 00:23:28,465 INFO    Thread-14 (_run_job):18824 [wandb_init.py:init():857] wandb.init called with sweep_config: {'beam_search': 1, 'cell_type': 'RNN', 'dropout': 0.3, 'embedding_dim': 128, 'epochs': 5, 'hidden_size': 128, 'max_len': 30, 'num_layers': 2}
+config: {'_wandb': {}}
+2025-05-17 00:23:28,465 INFO    Thread-14 (_run_job):18824 [wandb_init.py:init():893] starting backend
+2025-05-17 00:23:28,465 INFO    Thread-14 (_run_job):18824 [wandb_init.py:init():897] sending inform_init request
+2025-05-17 00:23:28,466 INFO    Thread-14 (_run_job):18824 [backend.py:_multiprocessing_setup():101] multiprocessing start_methods=spawn, using: spawn
+2025-05-17 00:23:28,466 INFO    Thread-14 (_run_job):18824 [wandb_init.py:init():907] backend started and connected
+2025-05-17 00:23:28,466 INFO    Thread-14 (_run_job):18824 [wandb_run.py:_config_callback():1436] config_cb None None {'beam_search': 1, 'cell_type': 'RNN', 'dropout': 0.3, 'embedding_dim': 128, 'epochs': 5, 'hidden_size': 128, 'max_len': 30, 'num_layers': 2}
+2025-05-17 00:23:28,467 INFO    Thread-14 (_run_job):18824 [wandb_init.py:init():1005] updated telemetry
+2025-05-17 00:23:28,535 INFO    Thread-14 (_run_job):18824 [wandb_init.py:init():1029] communicating run to backend with 90.0 second timeout
+2025-05-17 00:23:29,447 INFO    Thread-14 (_run_job):18824 [wandb_init.py:init():1104] starting run threads in backend
+2025-05-17 00:23:29,520 INFO    Thread-14 (_run_job):18824 [wandb_run.py:_console_start():2573] atexit reg
+2025-05-17 00:23:29,522 INFO    Thread-14 (_run_job):18824 [wandb_run.py:_redirect():2421] redirect: wrap_raw
+2025-05-17 00:23:29,523 INFO    Thread-14 (_run_job):18824 [wandb_run.py:_redirect():2490] Wrapping output streams.
+2025-05-17 00:23:29,523 INFO    Thread-14 (_run_job):18824 [wandb_run.py:_redirect():2513] Redirects installed.
+2025-05-17 00:23:29,524 INFO    Thread-14 (_run_job):18824 [wandb_init.py:init():1150] run started, returning control to user process
+2025-05-17 00:23:29,772 INFO    Thread-14 (_run_job):18824 [wandb_run.py:_finish():2321] finishing run ch21b033-iit-madras/DA6401_Assignment_3/o0a5ro1v
+2025-05-17 00:23:29,772 INFO    Thread-14 (_run_job):18824 [wandb_run.py:_atexit_cleanup():2538] got exitcode: 1
+2025-05-17 00:23:29,772 INFO    Thread-14 (_run_job):18824 [wandb_run.py:_restore():2520] restore
+2025-05-17 00:23:29,772 INFO    Thread-14 (_run_job):18824 [wandb_run.py:_restore():2526] restore done
+2025-05-17 00:23:32,231 INFO    Thread-14 (_run_job):18824 [wandb_run.py:_footer_history_summary_info():4188] rendering history
+2025-05-17 00:23:32,231 INFO    Thread-14 (_run_job):18824 [wandb_run.py:_footer_history_summary_info():4220] rendering summary
+2025-05-17 00:23:32,232 INFO    Thread-14 (_run_job):18824 [wandb_run.py:_footer_sync_info():4149] logging synced files
