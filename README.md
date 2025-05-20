@@ -4,7 +4,7 @@
 
 ## Roll No : CH21B033
 
-This repository contains the implemenatation of assignment 3 of the course 'Introduction to Deep Learning' DA6401.
+This repository contains the implementation of assignment 3 of the course 'Introduction to Deep Learning' DA6401.
 
 It trains a custom RNN, LSTM AND GRU models, validates and tests them on the dakshina dataset for transliteration task. We consider transliteration from Latin (English) to Devanagari Hindi script.
 
@@ -34,7 +34,7 @@ CH21B033_DA6401_Assignment_3/
                          
 ├── README.md                                   # Project overview and instructions 
 
-├── requirements.txt                            # Python dependencies 
+├── requirements.txt                            # Python dependencies and libraries
 
 ├── test_accuracy_attention.txt                 # Contains test accuracy by attention-based model
 
