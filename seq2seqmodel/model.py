@@ -1,6 +1,13 @@
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
+import csv
 import torch
+from torch.nn.utils.rnn import pad_sequence
+from torch.utils.data import Dataset, DataLoader
 import torch.nn as nn
 import torch.nn.functional as F
+import os
+import wandb
 
 # Encoder
 class Encoder(nn.Module):
@@ -48,47 +55,68 @@ class Decoder(nn.Module):
         self.attn_mechanism = attn_mechanism
 
         rnn_cell = getattr(nn, config["cell_type"])
-        self.rnn = rnn_cell(
-            input_size=config['embedding_dim'],
-            hidden_size=config['hidden_size'],
-            num_layers=config['num_layers'],
-            dropout=config['dropout'] if config['num_layers'] > 1 else 0,
-            batch_first=True
-        )
+        
+        if attn_mechanism:
+            self.rnn = rnn_cell(
+                input_size=config['embedding_dim'] + config['hidden_size'],
+                hidden_size=config['hidden_size'],
+                num_layers=config['num_layers'],
+                dropout=config['dropout'] if config['num_layers'] > 1 else 0,
+                batch_first=True
+            )
+        else:
+            self.rnn = rnn_cell(
+                input_size=config['embedding_dim'],
+                hidden_size=config['hidden_size'],
+                num_layers=config['num_layers'],
+                dropout=config['dropout'] if config['num_layers'] > 1 else 0,
+                batch_first=True
+            )
         
         self.attention = Attention(config['hidden_size'])
-        self.out = nn.Linear(config['hidden_size'], target_vocab_size)
-
-    def forward(self, x, hidden,encoder_outputs):
-        x = x.unsqueeze(1)  # (B) -> (B, 1)
-        embedded = self.embedding(x)  # (B, 1, E)
         
         if self.attn_mechanism:
-            # Get attention weights using last layer's hidden state
-            attn_weights = self.attention(hidden[-1], encoder_outputs)  # [B, S]
-            context = torch.bmm(attn_weights.unsqueeze(1), encoder_outputs)  # [B, 1, H]
-
-            rnn_input = torch.cat((embedded, context), dim=2)  # [B, 1, E+H]
-            output, hidden = self.rnn(rnn_input, hidden)
-            output = output.squeeze(1)  # [B, H]
-            context = context.squeeze(1)  # [B, H]
-
-            prediction = self.out(torch.cat((output, context), dim=1))  # [B, V]
-            return prediction, hidden
-        
+            self.out = nn.Linear(config['hidden_size'] * 2, target_vocab_size)
         else:
-            output, hidden = self.rnn(embedded, hidden)
+            self.out = nn.Linear(config['hidden_size'], target_vocab_size)
+
+    def forward(self, x, hidden, encoder_outputs):
+        x = x.unsqueeze(1)  # (B) -> (B, 1)
+        embedded = self.embedding(x)  # (B, 1, E)
+
+        if self.attn_mechanism:
+            
+            if isinstance(hidden, tuple):  # LSTM: (h_n, c_n)
+                hidden_for_attn = hidden[0][-1]  # [B, H]
+            else:  # GRU/RNN
+                hidden_for_attn = hidden[-1]  # [B, H]
+        
+            attn_weights = self.attention(hidden_for_attn, encoder_outputs)  # [B, S]
+            context = torch.bmm(attn_weights.unsqueeze(1), encoder_outputs)  # [B, 1, H]
+            
+            rnn_input = torch.cat((embedded, context), dim=2)  # [B, 1, E+H]
+            output, hidden = self.rnn(rnn_input, hidden)  # output: [B, 1, H]
+            
+            output = output.squeeze(1)   # [B, H]
+            context = context.squeeze(1) # [B, H]
+            prediction = self.out(torch.cat((output, context), dim=1))  # [B, V]
+            return prediction, hidden, attn_weights
+            
+        else:
+            output, hidden = self.rnn(embedded, hidden)  # embedded is [B, 1, E]
             output = self.out(output.squeeze(1))  # (B, V)
             return output, hidden
 
 # Seq2Seq Model
 class Seq2Seq(nn.Module):
-    def __init__(self, encoder, decoder, config, target_vocab_size):
+    def __init__(self, encoder, decoder, config, target_vocab_size,attn_mechanism=False):
         super(Seq2Seq, self).__init__()
         self.encoder = encoder
         self.decoder = decoder
         self.config = config
         self.target_vocab_size = target_vocab_size
+        self.attn_mechanism = attn_mechanism
+
 
     def forward(self, src, tgt, teacher_forcing_ratio=0.5):
         batch_size, tgt_len = tgt.size()
@@ -100,7 +128,12 @@ class Seq2Seq(nn.Module):
         input = tgt[:, 0]
 
         for t in range(1, tgt_len):
-            output, hidden = self.decoder(input, hidden,encoder_outputs)
+            
+            if self.attn_mechanism:
+                output, hidden, attn_wts = self.decoder(input, hidden,encoder_outputs)
+            else:
+                output, hidden = self.decoder(input, hidden,encoder_outputs)
+                
             outputs[:, t] = output
             top1 = output.argmax(1)
 

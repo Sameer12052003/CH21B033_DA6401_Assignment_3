@@ -1,0 +1,2 @@
+Test Loss: 0.7113
+Test Accuracy (Exact Match): 0.3734

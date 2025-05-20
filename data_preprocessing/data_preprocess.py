@@ -1,8 +1,13 @@
+import numpy as np # linear algebra
+import pandas as pd # data processing, CSV file I/O (e.g. pd.read_csv)
 import csv
 import torch
 from torch.nn.utils.rnn import pad_sequence
 from torch.utils.data import Dataset, DataLoader
-
+import torch.nn as nn
+import torch.nn.functional as F
+import os
+import wandb
 
 def load_tsv_data(file_path):
     latin_words = []
@@ -16,6 +21,7 @@ def load_tsv_data(file_path):
                 latin_words.append(row[1])       # Latin transliteration
 
     return latin_words, devanagari_words
+
 
 
 def build_vocab(sequences, special_tokens=['<pad>', '<sos>', '<eos>', '<unk>']):
@@ -61,13 +67,13 @@ class DakshinaCharDataset(Dataset):
 def exact_match_accuracy(predictions, references):
         return sum(p == r for p, r in zip(predictions, references)) / len(predictions)
 
-def greedy_decode(model, src, max_len):
+def greedy_decode(model, src, max_len,sos_token):
     model.eval()
     with torch.no_grad():
         batch_size = src.size(0)
         encoder_outputs, hidden = model.encoder(src)
 
-        input_token = torch.full((batch_size, 1), config.sos_token, dtype=torch.long, device=src.device)
+        input_token = torch.full((batch_size, 1), sos_token, dtype=torch.long, device=src.device)
         outputs = []
 
         for _ in range(max_len):

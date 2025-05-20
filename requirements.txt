@@ -1,3 +1,7 @@
 torch
 numpy
 wandb
+kaleido
+pandas
+plotly
+matplotlib
